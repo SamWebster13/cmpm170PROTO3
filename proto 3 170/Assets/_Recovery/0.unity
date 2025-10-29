@@ -151,7 +151,7 @@ MonoBehaviour:
   width: 50
   height: 50
   cellSize: 2
-  wallThickness: 0.75
+  wallThickness: 0.25
   wallHeight: 3
   wallMaterialTransparent: {fileID: 2100000, guid: 0e330c8ea3286bd43b681d418a387d72, type: 2}
   wallsLayerName: Walls
@@ -160,23 +160,12 @@ MonoBehaviour:
   groundMaterial: {fileID: 2100000, guid: c5bd50e79104ed94096fb99597202eb3, type: 2}
   groundLayerName: Default
   groundY: 0
-  showExitTrail: 0
-  exitTrailMaterial: {fileID: 0}
-  exitTrailColor: {r: 1, g: 0, b: 0, a: 0.45}
-  exitTrailPadding: 0.35
-  endpointMode: 2
+  endpointMode: 0
   carveEntranceExit: 1
   playerToPlace: {fileID: 416170644}
   goalPrefab: {fileID: 0}
   generateOnStart: 1
   seed: 0
-  spawnRoomSize: {x: 3, y: 3}
-  goalRoomSize: {x: 3, y: 3}
-  extraRooms: 50
-  extraRoomMinSize: {x: 3, y: 3}
-  extraRoomMaxSize: {x: 5, y: 5}
-  roomPadding: 1
-  doorsPerRoom: {x: 2, y: 2}
 --- !u!4 &245857655
 Transform:
   m_ObjectHideFlags: 0
@@ -302,7 +291,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 416170638}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.76, y: 1.71, z: -4.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -670,5 +659,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 1458367142}
   - {fileID: 752566935}
-  - {fileID: 245857655}
   - {fileID: 416170644}
+  - {fileID: 245857655}
