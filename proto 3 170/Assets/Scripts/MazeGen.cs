@@ -21,6 +21,14 @@ public class MazeGenerator : MonoBehaviour
     public string groundLayerName = "Default";
     public float groundY = 0f;               // Y position for ground
 
+    [Header("Grid Lines")]
+    public bool drawGrid = true;
+    public Color gridColor = new Color(1f, 1f, 1f, 0.18f);
+    public float gridThickness = 0.03f;   // world units
+    public float gridY = 0.011f;          // tiny lift over ground to avoid z-fight
+    public Material gridMaterial;         // URP/Lit (Transparent). If null we’ll create one at runtime.
+
+
     [Header("Exit Trail (debug)")]
     public bool showExitTrail = false;                 // toggle in Inspector
     public Material exitTrailMaterial;                 // URP/Lit Transparent
@@ -454,16 +462,80 @@ public class MazeGenerator : MonoBehaviour
         float totalW = width * cellSize;
         float totalH = height * cellSize;
 
+        // --- Ground plane ---
         var groundGO = GameObject.CreatePrimitive(PrimitiveType.Plane);
         groundGO.name = "Ground";
         groundGO.transform.SetParent(groundRoot, false);
-        groundGO.transform.localScale = new Vector3(totalW / 10f, 1f, totalH / 10f); // Unity Plane = 10x10
+        // Unity Plane is 10x10 in local units; scale to our maze size
+        groundGO.transform.localScale = new Vector3(totalW / 10f, 1f, totalH / 10f);
         groundGO.transform.position = new Vector3((width - 1) * cellSize * 0.5f, groundY, (height - 1) * cellSize * 0.5f);
         groundGO.layer = groundLayer;
 
         if (groundMaterial)
             groundGO.GetComponent<MeshRenderer>().sharedMaterial = groundMaterial;
+
+        // --- Grid overlay (thin quads) ---
+        if (!drawGrid) return;
+
+        // Parent holder
+        var gridRoot = new GameObject("GridOverlay").transform;
+        gridRoot.SetParent(groundRoot, false);
+
+        // Make/ensure a transparent unlit material if none was assigned
+        Material mat = gridMaterial;
+        if (!mat)
+        {
+            var shader = Shader.Find("Universal Render Pipeline/Unlit");
+            mat = new Material(shader);
+            // Transparent rendering
+            mat.SetFloat("_Surface", 1f);  // 0=Opaque, 1=Transparent (URP Unlit)
+            mat.SetOverrideTag("RenderType", "Transparent");
+            mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            mat.SetInt("_ZWrite", 0);
+            mat.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
+        }
+
+        // Helper to spawn a single line as a Quad
+        GameObject MakeLine(Vector3 centerLocal, float widthLocal, float heightLocal)
+        {
+            var q = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            DestroyImmediate(q.GetComponent<Collider>());
+            q.transform.SetParent(gridRoot, false);
+            q.transform.localPosition = centerLocal;
+            q.transform.localRotation = Quaternion.Euler(90f, 0f, 0f); // lay flat on XZ
+            q.transform.localScale = new Vector3(widthLocal, heightLocal, 1f);
+
+            var mr = q.GetComponent<MeshRenderer>();
+            mr.sharedMaterial = mat;
+            mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            mr.receiveShadows = false;
+
+            var mpb = new MaterialPropertyBlock();
+            mpb.SetColor("_BaseColor", gridColor);
+            mr.SetPropertyBlock(mpb);
+            return q;
+        }
+
+        float half = cellSize * 0.5f;
+
+        // Vertical lines (along Z): x at cell boundaries, z spans full height
+        for (int x = 0; x <= width; x++)
+        {
+            float lineX = (x * cellSize) - half; // -half, +0.5*cs, ..., (w-0.5)*cs
+            Vector3 pos = new Vector3(lineX, groundY + gridY, (height - 1) * cellSize * 0.5f);
+            MakeLine(pos, gridThickness, totalH);
+        }
+
+        // Horizontal lines (along X): z at cell boundaries, x spans full width
+        for (int y = 0; y <= height; y++)
+        {
+            float lineZ = (y * cellSize) - half;
+            Vector3 pos = new Vector3((width - 1) * cellSize * 0.5f, groundY + gridY, lineZ);
+            MakeLine(pos, totalW, gridThickness);
+        }
     }
+
 
     Vector3 CellCenterWorld(Vector2Int c) => new Vector3(c.x * cellSize, groundY, c.y * cellSize);
 

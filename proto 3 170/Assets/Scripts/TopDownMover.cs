@@ -62,10 +62,6 @@ public class PlayerControllerCC_TopDown : MonoBehaviour
         Vector3 planar = (camF * input.y + camR * input.x);
         float speed = moveSpeed * (Input.GetKey(KeyCode.LeftShift) ? sprintMultiplier : 1f);
 
-        // Jump (keeps your original math)
-        if (grounded && Input.GetButtonDown("Jump"))
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-
         // Apply gravity
         velocity.y += gravity * Time.deltaTime;
 
