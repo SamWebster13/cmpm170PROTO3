@@ -9,6 +9,7 @@ public class FossilCleaningGame : MonoBehaviour
     [SerializeField] private GameObject cleaningPanel;
     [SerializeField] private Image fossilImage;
     [SerializeField] private Transform dirtContainer;
+    [SerializeField] private GameObject completionText; // "Fossil Cleaned!" text
     
     [Header("Dirt Particle Settings")]
     [SerializeField] private GameObject dirtCirclePrefab;
@@ -31,6 +32,12 @@ public class FossilCleaningGame : MonoBehaviour
         {
             cleaningPanel.SetActive(false);
         }
+        
+        // Hide completion text
+        if (completionText != null)
+        {
+            completionText.SetActive(false);
+        }
     }
     
     public void StartMinigame(Sprite fossilSprite, int dirtCount, Action onComplete)
@@ -39,6 +46,12 @@ public class FossilCleaningGame : MonoBehaviour
         onCompleteCallback = onComplete;
         totalDirtCount = dirtCount;
         removedDirtCount = 0;
+        
+        // Hide completion text at start
+        if (completionText != null)
+        {
+            completionText.SetActive(false);
+        }
         
         // Show the UI panel
         if (cleaningPanel != null)
@@ -51,6 +64,18 @@ public class FossilCleaningGame : MonoBehaviour
         {
             fossilImage.sprite = fossilSprite;
             fossilImage.preserveAspect = true;
+            Debug.Log($"FossilCleaningGame: Fossil sprite set to '{fossilSprite.name}'");
+        }
+        else
+        {
+            if (fossilImage == null)
+            {
+                Debug.LogError("FossilCleaningGame: fossilImage is null! Assign it in the Inspector.");
+            }
+            if (fossilSprite == null)
+            {
+                Debug.LogError("FossilCleaningGame: fossilSprite passed in is null!");
+            }
         }
         
         // Create dirt particles
@@ -185,8 +210,14 @@ public class FossilCleaningGame : MonoBehaviour
     {
         Debug.Log("Fossil cleaning complete!");
         
+        // Show completion text
+        if (completionText != null)
+        {
+            completionText.SetActive(true);
+        }
+        
         // Hide the panel after a short delay
-        Invoke("HidePanel", 1f);
+        Invoke("HidePanel", 1.5f);
     }
     
     void HidePanel()
