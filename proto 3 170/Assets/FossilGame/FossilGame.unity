@@ -863,16 +863,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FossilGameManager
   fossilTypes:
-  - fossilName: Dome Fossil
-    fossilSprite: {fileID: 21300000, guid: 2c73666c81248ce43a8c19f11584d3f2, type: 3}
+  - fossilName: Fossil1
+    fossilSprite: {fileID: 21300000, guid: c7926561dea07c34291b47dbee2dad4e, type: 3}
     dirtParticleCount: 30
     spawnWeight: 2
-  - fossilName: Helix Fossil
-    fossilSprite: {fileID: 21300000, guid: 247fde2630083034a98f991fe61382e8, type: 3}
+  - fossilName: Fossil2
+    fossilSprite: {fileID: 21300000, guid: 073097618ab16cb4cba0bd2b4dfa1492, type: 3}
     dirtParticleCount: 30
     spawnWeight: 2
-  - fossilName: Skull Fossil
-    fossilSprite: {fileID: 21300000, guid: b97bb9d8d70ed48489bb1e605476d8ad, type: 3}
+  - fossilName: Fossil3
+    fossilSprite: {fileID: 21300000, guid: e5d5e33454c633a459fed4fb3a2e8ccf, type: 3}
+    dirtParticleCount: 30
+    spawnWeight: 2
+  - fossilName: Fossil4
+    fossilSprite: {fileID: 21300000, guid: 18436a44c73f982428609a16e2949f3c, type: 3}
+    dirtParticleCount: 30
+    spawnWeight: 2
+  - fossilName: Fossil5
+    fossilSprite: {fileID: 21300000, guid: f382fe5c0058b2949bc162dde46a588d, type: 3}
+    dirtParticleCount: 30
+    spawnWeight: 2
+  - fossilName: Fossil6
+    fossilSprite: {fileID: 21300000, guid: 96eafd95d55188741a4671fe1bc88545, type: 3}
+    dirtParticleCount: 30
+    spawnWeight: 2
+  - fossilName: Fossil7
+    fossilSprite: {fileID: 21300000, guid: daa5e9b19ba0a294ebb57807c298319c, type: 3}
+    dirtParticleCount: 30
+    spawnWeight: 2
+  - fossilName: Fossil8
+    fossilSprite: {fileID: 21300000, guid: 51f73ecac356ea747b13507bdaae896e, type: 3}
+    dirtParticleCount: 30
+    spawnWeight: 2
+  - fossilName: Fossil9
+    fossilSprite: {fileID: 21300000, guid: 2b7c21516d4e12a49a382599bf883f81, type: 3}
+    dirtParticleCount: 30
+    spawnWeight: 2
+  - fossilName: Fossil10
+    fossilSprite: {fileID: 21300000, guid: 36164739848594041bf17b789e52da8c, type: 3}
     dirtParticleCount: 30
     spawnWeight: 2
   defaultDirtCount: 30
